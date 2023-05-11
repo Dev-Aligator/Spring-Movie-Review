@@ -1,0 +1,68 @@
+<section th:fragment="reviews">
+    <div sec:authorize="isAuthenticated()" class="container">
+        <div class="review-writer-box">
+            <form th:action="@{'/movies/'+${movie.getId()}+'/review/new/'+${#authentication.getPrincipal().getId()}}"
+                  th:object="${new_review}" method="post">
+                <div class="row" >
+                    <div class="col-2">
+                        <label for="movieRating">Select Rating</label>
+                        <select class="form-control" id="movieRating" th:field="*{movieRating}">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <div class="col-10">
+                        <label for="reviewContent">Detailed Review</label>
+                        <textarea class="form-control" id="reviewContent" rows="3" placeholder="Write a review..." th:field="*{content}"></textarea>
+                    </div>
+                </div>
+                <div class="text-right mt-2">
+                    <button class="btn btn-primary" type="submit" value="Submit">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" th:each="review : ${movie.getReviews()}">
+        <div th:if="${!review.getContent().equals('') && !review.getContent().equals(null)}" class="review-box">
+            <div class="review-heading">
+                <div class="picture-name-container">
+                    <div class="review-profile-image-container">
+                        <img th:src="${review.getUser().getProfilePicPath()}" class="review-profile-image" alt="User Image">
+                    </div>
+                    <div class="review-name-container">
+                        <h4 th:text="${review.getUser().getUsername()}"></h4>
+                    </div>
+                </div>
+                <div class="review-date-delete">
+                    <div class="review-date">
+                        <span th:text="${review.getDateTimeString()}"></span>
+                    </div>
+                    <a class="review-delete" th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}" th:href="@{'/movies/'+${movie.getId()}+'/review/edit/'+${review.reviewId}}">
+                        <span><i class="fa-solid fa-pen-to-square"></i></span>
+                    </a>
+                    <a class="review-delete" th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}" th:href="@{'/movies/'+${movie.getId()}+'/review/delete/'+${review.reviewId}}">
+                        <span><i class="fa-solid fa-trash-can"></i></span>
+                    </a>
+                </div>
+            </div>
+            <hr class="horizontal-line"/>
+            <div class="review-body">
+                <div class="review-stars">
+                    <span><i style="color: orange;" class="fa-solid fa-star"></i></span>
+                    <span th:text="${review.getMovieRating()}" ></span>
+                    <span>/10</span>
+                </div>
+                <p th:text="${review.getContent()}"></p>
+            </div>
+        </div>
+    </div>
+</section>

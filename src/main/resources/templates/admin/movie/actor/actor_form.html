@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layouts :: head"> </head>
+  <body>
+    <div class="container">
+      <nav th:replace="layouts :: admin_navbar"></nav>
+      <div class="container">
+        <h1 align="center">Create A New Cast</h1>
+        <form
+          th:object="${actorForm}"
+          th:action="@{/admin/actors/{action}(action=${actorForm.id}?'edit/'+${actorForm.id}:'create')}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label"
+              >Cast Name</label
+            >
+            <input
+              th:field="*{name}"
+              type="text"
+              name="name"
+              class="form-control"
+              placeholder="Name"
+              aria-label="Name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label"
+              >Cast Profile Pic</label
+            >
+            <img
+              height="30px"
+              width="30px"
+              th:if="${actorForm.getImageUrl()}"
+              th:src="@{${actorForm.getImageUrl()}}"
+            />
+            <br />
+            <input type="file" name="file" />
+          </div>
+
+          <button
+            class="btn btn-primary text-center"
+            type="submit"
+            th:text="(${actorForm.id}?'Update':'Create')"
+          ></button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>All User</title>
+</head>
+<body>
+
+    <div th:insert="navbar :: navbar_head">...</div>
+    <div th:insert="navbar :: navbar_content">...</div>
+
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope=""col>#</th>
+                <th scope="col">Username</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Active</th>
+                <th scope="col">Roles</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')" scope="col" >Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                <tr th:if="${error}" class="error"> No User Found </tr>
+                <tr th:each="user, stat : ${allUser}">
+                    <td th:text="${stat.index + 1}">1</td>
+                    <td th:text = "${user.username}"> Username </td>
+                    <td th:text = "${user.firstName}"> First Name </td>
+                    <td th:text = "${user.lastName}"> Last Name </td>
+                    <td th:text = "${user.email}"> Email </td>
+                    <td th:text = "${user.enabled}"> Is Active </td>
+                    <td>
+                        <table>
+                            <tr th:each="role : ${user.roles}">
+                                <td th:text="${#strings.toLowerCase(role.name)}"> </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a th:href="@{'/edit/user/' + ${user.id}}" >
+                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                        </a>
+                        &nbsp; &nbsp;
+                        <a th:href="@{'/delete/user/' + ${user.id}}">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
+
+

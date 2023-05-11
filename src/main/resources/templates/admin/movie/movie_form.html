@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layouts :: head"> </head>
+  <body>
+    <div class="container">
+      <nav th:replace="layouts :: admin_navbar"></nav>
+      <div class="container">
+        <h1 align="center">Add a New Movie</h1>
+        <form
+          th:object="${movieForm}"
+          th:action="@{/admin/movies/{action}(action=${movieForm.id}?'edit/'+${movieForm.id}:'add')}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="name">Name</label>
+              <input
+                th:field="*{name}"
+                name="name"
+                type="text"
+                class="form-control"
+                id="name"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="release_date">Release Date</label>
+              <input
+                name="release_date"
+                th:value="${#dates.format(movieForm.releaseDate,'yyyy-mm-dd')}"
+                th:field="*{releaseDate}"
+                type="date"
+                class="form-control"
+                id="release_date"
+              />
+              <p th:if="${#fields.hasErrors('releaseDate')}">
+                Please select release date of the movie
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="genre">Genre</label>
+            <input
+              name="genre"
+              th:field="*{genre}"
+              type="text"
+              class="form-control"
+              id="genre"
+              placeholder="Horror"
+            />
+          </div>
+          <div class="form-group">
+            <label for="poster">Poster</label>
+            <img
+              height="30px"
+              width="30px"
+              th:if="${movieForm.getPoster()}"
+              th:src="@{${movieForm.getPoster()}}"
+            />
+            <br />
+            <input type="file" name="file" />
+          </div>
+
+          <div class="form-group">
+            <label for="actors">Casts</label>
+            <select
+              th:field="*{actors}"
+              id="actors"
+              class="form-control"
+              multiple="multiple"
+            >
+              <option
+                th:each="actor : ${actors}"
+                th:text="${actor.name}"
+                th:value="${actor.id}"
+              ></option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              th:field="*{description}"
+              class="form-control"
+              id="description"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            th:text="(${movieForm.id}?'Update':'Add')"
+          >
+            Add
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

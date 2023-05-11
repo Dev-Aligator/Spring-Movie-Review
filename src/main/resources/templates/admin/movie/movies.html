@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="navbar :: navbar_head"> </head>
+  <body>
+  <div th:insert="navbar :: navbar_head">...</div>
+  <div th:insert="navbar :: navbar_content">...</div>
+    <div class="container">
+      <div class="container">
+        <div style="height: 20px"></div>
+        <p align="center"><a href="/admin/movies/add">Add Movie</a></p>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Poster</th>
+                <th scope="col">Name</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Release Date</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="movie : ${movies}">
+                <td th:text="${movie.id}"></td>
+                <td>
+                  <img height="20px" width="20px" th:src="@{${movie.poster}}" />
+                </td>
+                <td><a th:text="${movie.name}" th:href="@{/movies/{id}(id=${movie.getId()})}"></a></td>
+                <td th:text="${movie.genre}"></td>
+                <td th:text="${movie.releaseDate}"></td>
+                <td>
+                  <a
+                    class="btn btn-danger"
+                    th:href="@{/admin/movies/delete/{id}(id=${movie.id})}"
+                    >Delete</a
+                  >
+                  <a
+                    class="btn btn-warning"
+                    th:href="@{/admin/movies/edit/{id}(id=${movie.id})}"
+                    >Edit</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

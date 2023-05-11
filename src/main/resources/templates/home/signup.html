@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleahf.org">
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+
+    <div th:insert="navbar :: navbar_head">...</div>
+	<div th:insert="navbar :: navbar_content">...</div>
+	
+	<div class="container">
+
+		<form class="form-container text-center" th:action="@{/signup}" th:object="${user}" method='POST'>
+			<p class="form-title"> Please Register Here </p>
+			<p th:if="${signupError}" class="error"> Username already exist </p>
+	        <div class="form-group">
+				<label for="input_username">Username</label> 
+				<input type="text" class="form-control" id="input_username" placeholder="Username" name='username' required>
+			</div>
+
+			<div class="form-group">
+				<label for="input_password">Password</label>
+				<input type="text" class="form-control" id="input_password" placeholder="Password" name='password' required>
+			</div>
+			
+			<div class="form-group">
+				<label for="input_firstname">First name</label> 
+				<input type="text" class="form-control" id="input_firstname" placeholder="Your first name" name='firstName' required>
+			</div>
+			
+			<div class="form-group">
+				<label for="input_lastname">Last name</label> 
+				<input type="text" class="form-control" id="input_lastname" placeholder="Your last name" name='lastName' required>
+			</div>
+			
+			<div class="form-group">
+				<label for="input_email">Email</label> 
+				<input type="email" class="form-control" id="input_email" placeholder="Enter email" name='email' required>
+				<small id="emailHelp" class="form-text text-muted">Put a valid email here.</small>
+			</div>
+			
+			<button type="submit" class="btn btn-primary btn-block" style="width:490px" >Submit</button>
+		</form>
+
+	</div>
+	
+    	
+</body>
+
+</html>
+
+

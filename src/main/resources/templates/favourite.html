@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts :: head"> </head>
+<body>
+<div class="container">
+    <nav th:replace="layouts :: main_navbar"></nav>
+    <div class="container">
+        <div style="height: 20px"></div>
+        <p style="text-align: center"><a href="/movies">Add Movies To Favourite</a></p>
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Poster</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Release Date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="movie : ${movies}">
+                    <td th:text="${movie.id}"></td>
+                    <td>
+                        <img height="20px" width="20px" th:src="@{${movie.poster}}" />
+                    </td>
+                    <td th:text="${movie.name}"></td>
+                    <td th:text="${movie.genre}"></td>
+                    <td th:text="${movie.releaseDate}"></td>
+                    <td>
+                        <a th:href="@{/movies/{id}/remove-from-favourite (id=${movie.id})}" style="color: darkred"><span
+                                class="material-icons">favorite</span></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a class="d-flex justify-content-center" style="text-decoration: none;" th:href="@{/movies/watch-listed-movies/clear-all}">
+                <button type="button" class="btn btn-danger"><span class="material-icons" style="font-size: medium">delete</span>Clear Favourite Movies</button>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
