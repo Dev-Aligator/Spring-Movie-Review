@@ -53,13 +53,14 @@ public class Movie {
     @ManyToMany(mappedBy = "favouriteMovies")
     private Set<User> favouriteMovieUsers = new HashSet<>();
 
-
+    @Column(name="trailer_link", nullable = true, columnDefinition = "TEXT")
+    private String trailerLink;
 
     public Movie() {
     }
 
     public Movie(String name, Date releaseDate, Double rating, String genre, String poster, String description,
-            Set<Actor> actors,Set<User>watchlistUsers) {
+            Set<Actor> actors,Set<User>watchlistUsers, String trailerLink) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.rating = rating;
@@ -67,6 +68,7 @@ public class Movie {
         this.poster = poster;
         this.description = description;
         this.actors = actors;
+        this.trailerLink = trailerLink;
     }
 
     public long getId() {
@@ -140,6 +142,14 @@ public class Movie {
         this.reviews = reviews;
     }
 
+    public String getTrailerLink(){
+        return trailerLink;
+    }
+
+    public void setTrailerLink(String trailerLink){
+        this.trailerLink = trailerLink;
+    }
+
 
     public Set<User> getWatchlistUsers() {
         return watchlistUsers;
@@ -177,6 +187,6 @@ public class Movie {
     @Override
     public String toString() {
         return "Movie [id=" + id + ", name=" + name + ", releaseDate=" + releaseDate + ", rating=" + rating + ", genre="
-                + genre + ", poster=" + poster + ", description=" + description + ", actors=" + actors + "]";
+                + genre + ", poster=" + poster + ", description=" + description + ", actors=" + actors + "trailer=" + trailerLink + "]";
     }
 }

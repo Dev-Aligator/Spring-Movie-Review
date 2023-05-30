@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Controller
 public class MovieController {
 
@@ -86,6 +89,11 @@ public class MovieController {
         try {
             String path = FileUpload.saveImage(ImageType.MOVIE_POSTER, movie.getName(), file);
             movie.setPoster(path);
+
+            String videoId = extractVideoId(movie.getTrailerLink());
+            String embedLink = "https://www.youtube.com/embed/" + videoId;
+            movie.setTrailerLink(embedLink);
+            
             movieService.saveMovie(movie);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute(movie);
@@ -127,6 +135,11 @@ public class MovieController {
             } else {
                 movie.setPoster(movieService.getMovieById(id).getPoster());
             }
+
+            String videoId = extractVideoId(movie.getTrailerLink());
+            String embedLink = "https://www.youtube.com/embed/" + videoId;
+            movie.setTrailerLink(embedLink);
+
             movieService.saveMovie(movie);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute(model);
@@ -134,6 +147,19 @@ public class MovieController {
         }
         return "redirect:/admin/movies/";
     }
+
+    // Method to extract the video ID from the YouTube link
+    private String extractVideoId(String youtubeLink) {
+        String videoId = "";
+        String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|\\/v%2F)[^#\\&\\?\\n]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(youtubeLink); //url is youtube url for which you want to extract video id.
+        if (matcher.find()) {
+            videoId = matcher.group();
+        }
+        return videoId;
+    }
+
 
     @RequestMapping("/admin/movies/delete/{id}")
     public String deleteMovie(@PathVariable("id") long id, Model model) {
