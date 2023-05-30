@@ -7,7 +7,65 @@
 
     <div th:insert="navbar :: navbar_head">...</div>
 	<div th:insert="navbar :: navbar_content">...</div>
+	<link th:href="@{/css/signup-page-styles.css}" rel="stylesheet"/>
+
+
+	<div class="form-container">
+		<div class="register-card">
+			<div class="column">
+				<h1>Đăng kí</h1>
+				<form id=register-form th:action="@{/signup}" th:object="${user}" method='POST'>
+					<div class="form-item">
+						<label for="email">Username</label>
+						<input type="text" class="form-element" id="input_username"  name='username' required>
+						<i id="valid_email" class="fa-solid fa-circle-check" style="margin-left: -50px;display:none;"></i>
+						<i id="invalid_email" class="fa-solid fa-circle-exclamation" style="margin-left: -50px;display:none;"></i>
+					</div>
+					<div class="form-item">
+						<label for="input_password">Password</label>
+						<input type="password" class="form-element" id="input_password" name='password' required>
+						<i id="valid_password" class="fa-solid fa-circle-check" style="margin-left: -50px;display:none;"></i>
+						<i id="invalid_password" class="fa-solid fa-circle-exclamation" style="margin-left: -50px;display:none"></i>
+						
+					</div>
+					<div class="form-item" style="display:flex;">
+						<label for="input_firstname">First name</label> 
+						<input type="text" class="form-element" id="input_firstname" name='firstName' required style="width:50%">
+						<label for="input_lastname" style="transform: translate(240px, -10px);">Last name</label> 
+						<input type="text" class="form-element" id="input_lastname" name='lastName' required style="width:50%">
+					</div>
+
+					<div class="form-item">
+						<label for="input_email">Email</label> 
+						<input type="email" class="form-element" id="input_email" name='email' required>
+					</div>
+					<div class="messages">
+					<p th:if="${signupError}" class="error"> Username already exist </p>
+					</div>
+					<div class="flex">
+						<button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+					</div>
 	
+					<div class="separator">Or</div>
+					
+					<p style="margin-top:3rem;margin-bottom:1.5rem">Phương thức đăng ký khác</p>
+					<div class="sign-in-with-google">
+						<a class="google-button" href="#">
+							<img width=30 src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="">
+						  Đăng kí với Google
+						</a>
+					</div>
+				</form>
+			</div>
+			<div class="column" style="display: none;">
+
+			</div>
+		</div>
+		</div>
+
+
+
+
 	<div class="container">
 
 		<form class="form-container text-center" th:action="@{/signup}" th:object="${user}" method='POST'>

@@ -5,34 +5,47 @@
 </head>
 <body>
 
-	<div th:insert="navbar :: navbar_head">...</div>
+	<div th:insert="navbar :: navbar_head"></div>
+	<link th:href="@{/css/login-page-styles.css}" rel="stylesheet"/>
 	<div th:insert="navbar :: navbar_content">...</div>
 	
-	<div class="container">
-
-		<form class="form-container text-center" th:action="@{/login}" method='POST'>
-			<p class="form-title"> Please Login Here </p>
-			<p th:if="${loginError}" class="error"> Login Failed  </p>
-			<div class="form-group">
-				<label for="input_email">Username</label>
-				<input type="text" class="form-control" id="input_email" aria-describedby="emailHelp" placeholder="Username" name='username'>
-				<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	<div class="form-container">
+		<div class="login-card">
+			<div class="column">
+				<h1>Đăng nhập</h1>
+				<form th:action="@{/login}" method='POST'>
+					<div class="form-item">
+						<label for="email">Tài khoản</label>
+						<input type="text" id="email" name="username" class="form-element" required>
+					</div>
+					<div class="form-item">
+						<label for="password">Mật khẩu</label>
+						<input type="password" id="password" name="password" class="form-element" required>
+					</div>
+					<div class="messages">
+					<p th:if="${loginError}" class="error"> Login Failed  </p>
+					</div>
+					<div class="flex">
+						<button type="submit" class="btn btn-primary">Đăng nhập</button>
+						<span>Quên mật khẩu? <a href= "#">Đặt lại mật khẩu</a></span>
+					</div>
+					<div class="separator">Or</div>
+		
+					<div class="sign-in-with-google">
+						<a class="google-button" href="#">
+							<img width=30 src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="">
+						  Đăng nhập với Google
+						</a>
+					</div>
+		
+				</form>
 			</div>
-
-			<div class="form-group">
-				<label for="input_password">Password</label>
-				<input type="password" class="form-control" id="input_password" placeholder="Password" name='password'>
+			<div class="column" style="display:none;">
+				<p>If you don't have an account, would you like to register right now</p>
+				<a href="#">Sign Up</a>
 			</div>
-
-			<div class="form-check">
-				<input type="checkbox" class="form-check-input" id="checkbox">
-				<label class="form-check" for="checkbox">Remember me</label>
-				<button type="submit" class="login-submit btn btn-primary">Submit</button>
-			</div>
-
-
-		</form>
-	</div>
+		</div>
+		</div>
 </body>
 
 </html>
