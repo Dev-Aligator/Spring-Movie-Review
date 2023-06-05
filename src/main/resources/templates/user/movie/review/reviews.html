@@ -75,6 +75,7 @@
       class="review-box"
     >
       <div class="review-heading">
+        <!-- Image + name -->
         <div class="picture-name-container">
           <div class="review-profile-image-container">
             <img
@@ -84,37 +85,51 @@
             />
           </div>
           <div class="review-name-container">
-            <h4 th:text="${review.getUser().getUsername()}"></h4>
+            <h5 th:text="${review.getUser().getUsername()}"></h5>
           </div>
         </div>
+        <!-- Rating + Comment -->
+        <div class="rate-container">
+          <span class="rating-comment-container" style="margin-left: 10px">
+            <div
+              class="review-stars"
+              style="display: flex; align-items: center"
+            >
+              <span th:text="${review.getMovieRating()}"></span>
+              <span
+                ><i
+                  style="color: orange; margin-left: 5px"
+                  class="fa-solid fa-star"
+                ></i
+              ></span>
+            </div>
+            <div class="review-body" style="margin-left: 5px">
+              <p th:text="${review.getContent()}"></p>
+            </div>
+          </span>
+        </div>
+        <!-- Date + Edit + Delete -->
         <div class="review-date-delete">
           <div class="review-date">
-            <span th:text="${review.getDateTimeString()}"></span>
+            <div th:text="${review.getDateTimeString()}"></div>
+            <div style="display: flex">
+              <a
+                class="review-delete"
+                th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}"
+                th:href="@{'/movies/'+${movie.getId()}+'/review/edit/'+${review.reviewId}}"
+              >
+                <span><i class="fa-solid fa-pen-to-square"></i></span>
+              </a>
+              <a
+                class="review-delete"
+                th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}"
+                th:href="@{'/movies/'+${movie.getId()}+'/review/delete/'+${review.reviewId}}"
+              >
+                <span><i class="fa-solid fa-trash-can"></i></span>
+              </a>
+            </div>
           </div>
-          <a
-            class="review-delete"
-            th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}"
-            th:href="@{'/movies/'+${movie.getId()}+'/review/edit/'+${review.reviewId}}"
-          >
-            <span><i class="fa-solid fa-pen-to-square"></i></span>
-          </a>
-          <a
-            class="review-delete"
-            th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}"
-            th:href="@{'/movies/'+${movie.getId()}+'/review/delete/'+${review.reviewId}}"
-          >
-            <span><i class="fa-solid fa-trash-can"></i></span>
-          </a>
         </div>
-      </div>
-      <hr class="horizontal-line" />
-      <div class="review-body">
-        <div class="review-stars">
-          <span><i style="color: orange" class="fa-solid fa-star"></i></span>
-          <span th:text="${review.getMovieRating()}"></span>
-          <span>/ 10</span>
-        </div>
-        <p th:text="${review.getContent()}"></p>
       </div>
     </div>
   </div>

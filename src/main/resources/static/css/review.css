@@ -1,16 +1,12 @@
-.review-heading {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+/* .review-heading {
+  display: grid;
+  /* flex-direction: row;
+  flex-wrap: wrap; */
+  grid-column: 3;
   justify-content: space-between;
   margin: 15px auto;
   padding: 5px 20px;
-}
-
-.picture-name-container {
-  display: flex;
-  flex-direction: row;
-}
+} */
 
 .review-profile-image-container {
   width: 30px;
@@ -25,6 +21,9 @@
   -moz-border-radius: 100%;
   border-radius: 100%;
 }
+/* .review-body {
+  margin-left: 5px;
+} */
 
 .review-name-container {
   margin-left: 5px;
@@ -32,14 +31,20 @@
   flex-direction: column;
   justify-content: center;
 }
-
+.user-comment-container {
+  display: flex;
+  gap: 50px;
+}
+/* .picture-name-container {
+  display: flex;
+} */
 .review-date-delete {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.review-date {
+/* .review-date {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,24 +55,7 @@
   flex-direction: column;
   justify-content: center;
   margin-left: 10px;
-}
-
-.horizontal-line {
-  width: 90%;
-  margin: 2px auto;
-  border-width: thin;
-  border-color: cornflowerblue;
-}
-
-.review-body {
-  display: flex;
-  flex-direction: column;
-  padding: 15px 45px;
-}
-
-.review-stars {
-  margin: 5px 0;
-}
+} */
 
 .review-box {
   width: 100%;
@@ -134,5 +122,46 @@
 }
 
 .highlight {
-  background-color: yellow;
+  background-color: orange;
+}
+
+
+.review-heading {
+  display: grid;
+  grid-template-columns: auto 1fr auto; 
+  gap: 20px;
+  align-items: center;
+  justify-items: start;
+  margin: 15px auto;
+  padding: 5px 20px;
+}
+
+
+.picture-name-container {
+  grid-column: 1 ;
+
+}
+
+.rate-container {
+  grid-column: 2;
+}
+
+.review-date-delete {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+
+.review-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.review-delete {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
 }
