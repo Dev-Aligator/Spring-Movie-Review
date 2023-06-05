@@ -1,12 +1,40 @@
-/* .review-heading {
+.review-heading {
   display: grid;
-  /* flex-direction: row;
-  flex-wrap: wrap; */
-  grid-column: 3;
-  justify-content: space-between;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+  justify-items: start;
   margin: 15px auto;
   padding: 5px 20px;
-} */
+}
+
+.picture-name-container {
+  grid-column: 1;
+}
+
+.rate-container {
+  grid-column: 2;
+}
+
+.review-date-delete {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+
+.review-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.review-delete {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+}
 
 .review-profile-image-container {
   width: 30px;
@@ -21,9 +49,6 @@
   -moz-border-radius: 100%;
   border-radius: 100%;
 }
-/* .review-body {
-  margin-left: 5px;
-} */
 
 .review-name-container {
   margin-left: 5px;
@@ -35,27 +60,12 @@
   display: flex;
   gap: 50px;
 }
-/* .picture-name-container {
-  display: flex;
-} */
+
 .review-date-delete {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-
-/* .review-date {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.review-delete {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 10px;
-} */
 
 .review-box {
   width: 100%;
@@ -123,45 +133,4 @@
 
 .highlight {
   background-color: orange;
-}
-
-
-.review-heading {
-  display: grid;
-  grid-template-columns: auto 1fr auto; 
-  gap: 20px;
-  align-items: center;
-  justify-items: start;
-  margin: 15px auto;
-  padding: 5px 20px;
-}
-
-
-.picture-name-container {
-  grid-column: 1 ;
-
-}
-
-.rate-container {
-  grid-column: 2;
-}
-
-.review-date-delete {
-  grid-column: 3;
-  justify-self: end;
-  display: flex;
-  align-items: center;
-}
-
-.review-date {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.review-delete {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 10px;
 }
