@@ -1,102 +1,138 @@
-.review-heading{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 15px auto;
-    padding: 5px 20px;
+.review-heading {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 15px auto;
+  padding: 5px 20px;
 }
 
-.picture-name-container{
-    display: flex;
-    flex-direction: row;
+.picture-name-container {
+  display: flex;
+  flex-direction: row;
 }
 
-.review-profile-image-container{
-    width: 30px;
-    height: 30px;
-    margin: auto 5px;
+.review-profile-image-container {
+  width: 30px;
+  height: 30px;
+  margin: auto 5px;
 }
 
-.review-profile-image{
-    width: 100%;
-    height: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
+.review-profile-image {
+  width: 100%;
+  height: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
 }
 
-.review-name-container{
-    margin-left: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.review-name-container {
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.review-date-delete{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+.review-date-delete {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.review-date{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.review-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.review-delete{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 10px;
+.review-delete {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
 }
 
-.horizontal-line{
-    width: 90%;
-    margin: 2px auto;
-    border-width: thin;
-    border-color: cornflowerblue;
+.horizontal-line {
+  width: 90%;
+  margin: 2px auto;
+  border-width: thin;
+  border-color: cornflowerblue;
 }
 
-
-.review-body{
-    display: flex;
-    flex-direction: column;
-    padding: 15px 45px;
+.review-body {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 45px;
 }
 
-.review-stars{
-    margin: 5px 0;
+.review-stars {
+  margin: 5px 0;
 }
 
-.review-box{
-    width: 100%;
+.review-box {
+  width: 100%;
 
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
 
-    margin: 10px auto;
+  margin: 10px auto;
 
-    -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
-.review-writer-box{
-    width: 100%;
-    box-sizing: border-box;
-    background-color: antiquewhite;
+.review-writer-box {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #19181d;
+  /* background-color: #131217; */
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+  margin: auto;
+  padding: 20px 20px;
 
-    margin: 10px auto;
-    padding: 20px 20px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+.submit-review-btn {
+  margin-right: 15px;
+}
+.review-title {
+  margin: 10px 15px;
+}
+.detail-review-box {
+  margin-top: 15px;
+}
+.rating-container {
+  display: flex;
+  margin-left: 15px;
+}
+.rating-boxes {
+  display: flex;
+  margin-left: 10px;
+}
+.rating-box {
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  cursor: pointer;
+}
 
-    -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+.rating-box:hover {
+  background-color: lightgray;
+}
+
+.highlight {
+  background-color: yellow;
 }

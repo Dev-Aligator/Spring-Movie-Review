@@ -1,58 +1,123 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-    <head>
-        <title>Edit Review</title>
-        <link
-                rel="stylesheet"
-                href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-                integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-                crossorigin="anonymous"
-        />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" th:href="@{/css/style.css}">
-        <link rel="stylesheet" th:href="@{/css/review.css}">
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    </head>
-
-    <body>
-        <nav th:replace="layouts :: main_navbar"></nav>
-
-        <h1 style="text-align: center;">Edit Your Review</h1>
-        <section>
-            <div sec:authorize="isAuthenticated()" class="container">
-                <div class="review-writer-box">
-                    <form th:action="@{'/movies/'+${movie.getId()}+'/review/edit/'}"
-                          th:object="${review}" method="post">
-                        <div class="row">
-                            <div class="col-2">
-                                <label for="movieRating">Select Rating</label>
-                                <select class="form-control" id="movieRating" th:field="*{movieRating}">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                            <div class="col-10">
-                                <label for="reviewContent">Detailed Review</label>
-                                <textarea class="form-control" id="reviewContent" rows="3" placeholder="Write a review..." th:field="*{content}"></textarea>
-                            </div>
-                        </div>
-                        <div class="text-right mt-2">
-                            <button class="btn btn-primary" type="submit" value="Submit">Update Review</button>
-                        </div>
-                    </form>
-                </div>
+<section th:fragment="reviews">
+  <div sec:authorize="isAuthenticated()" class="container">
+    <div class="review-writer-box">
+      <form
+        th:action="@{'/movies/'+${movie.getId()}+'/review/new/'+${#authentication.getPrincipal().getId()}}"
+        th:object="${new_review}"
+        method="post"
+      >
+        <div class="row">
+          <div class="col-2">
+            <label for="movieRating">Select Rating</label>
+            <div class="rating-stars">
+              <span class="rating-star" onclick="selectRating(1)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(2)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(3)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(4)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(5)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(6)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(7)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(8)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(9)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="rating-star" onclick="selectRating(10)"
+                ><i class="fa-solid fa-star"></i
+              ></span>
             </div>
-        </section>
-    </body>
-</html>
+            <input type="hidden" id="movieRating" th:field="*{movieRating}" />
+          </div>
+
+          <div class="col-10">
+            <label for="reviewContent">Detailed Review</label>
+            <textarea
+              class="form-control"
+              id="reviewContent"
+              rows="3"
+              placeholder="Write a review..."
+              th:field="*{content}"
+            ></textarea>
+          </div>
+        </div>
+        <div class="text-right mt-2">
+          <button class="btn btn-primary" type="submit" value="Submit">
+            Submit Review
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="container" th:each="review : ${movie.getReviews()}">
+    <div
+      th:if="${!review.getContent().equals('') && !review.getContent().equals(null)}"
+      class="review-box"
+    >
+      <div class="review-heading">
+        <div class="picture-name-container">
+          <div class="review-profile-image-container">
+            <img
+              th:src="${review.getUser().getProfilePicPath()}"
+              class="review-profile-image"
+              alt="User Image"
+            />
+          </div>
+          <div class="review-name-container">
+            <h4 th:text="${review.getUser().getUsername()}"></h4>
+          </div>
+        </div>
+        <div class="review-date-delete">
+          <div class="review-date">
+            <span th:text="${review.getDateTimeString()}"></span>
+          </div>
+          <a
+            class="review-delete"
+            th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}"
+            th:href="@{'/movies/'+${movie.getId()}+'/review/edit/'+${review.reviewId}}"
+          >
+            <span><i class="fa-solid fa-pen-to-square"></i></span>
+          </a>
+          <a
+            class="review-delete"
+            th:if="${review.getUser().getId() == #authentication.getPrincipal().getId()}"
+            th:href="@{'/movies/'+${movie.getId()}+'/review/delete/'+${review.reviewId}}"
+          >
+            <span><i class="fa-solid fa-trash-can"></i></span>
+          </a>
+        </div>
+      </div>
+      <hr class="horizontal-line" />
+      <div class="review-body">
+        <div class="review-stars">
+          <span
+            class="rating-star-filled"
+            th:each="i : ${#numbers.sequence(1, review.getMovieRating())}"
+            ><i class="fa-solid fa-star"></i
+          ></span>
+          <span
+            class="rating-star"
+            th:each="i : ${#numbers.sequence(review.getMovieRating() + 1, 10)}"
+            ><i class="fa-solid fa-star"></i
+          ></span>
+        </div>
+        <p th:text="${review.getContent()}"></p>
+      </div>
+    </div>
+  </div>
+</section>
