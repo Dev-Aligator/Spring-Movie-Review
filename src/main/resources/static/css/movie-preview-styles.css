@@ -1,0 +1,14 @@
+body {
+  background-color: #101112;
+}
+.movie-container {
+  background-color: #19181d;
+}
+.movie-name {
+  font-size: 75px;
+}
+.watch-trailer-btn {
+  padding: 15px 25px;
+  border-radius: 15px;
+  margin-right: 5px;
+}
