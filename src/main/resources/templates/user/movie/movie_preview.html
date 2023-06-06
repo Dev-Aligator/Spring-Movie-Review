@@ -37,7 +37,7 @@
   <body>
     <nav th:replace="layouts :: main_navbar"></nav>
     <section
-      class="my-4 mx-auto p-2 rounded-lg container text-white-50 movie-container"
+      class="mx-auto p-2 rounded-lg container text-white-50 movie-container"
     >
       <div class="d-flex align-items-stretch">
         <div class="m-2 w-100 flex-column">
@@ -79,7 +79,7 @@
               </h6>
               <div class="d-flex align-items-center mt-3">
                 <!-- Watch Trailer button -->
-                <span>
+                <!-- <span>
                   <a href="#" class="ml-2">
                     <button class="btn btn-danger btn-icon watch-trailer-btn">
                       <span class="play-icon" style="margin-right: 5px"
@@ -88,7 +88,7 @@
                       <span style="margin-left: 5px">Play Trailer</span>
                     </button>
                   </a>
-                </span>
+                </span> -->
                 <!-- Favorite before -->
                 <span
                   th:if="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}"
@@ -97,8 +97,8 @@
                     th:href="@{/movies/{id}/remove-from-favourite (id=${movie.id})}"
                   >
                     <span
-                      class="material-icons rounded-circle p-3"
-                      style="background-color: red; color: white"
+                      class="material-icons rounded-circle p-2"
+                      style="background-color: #b31312; color: white"
                       >favorite</span
                     >
                   </a>
@@ -111,12 +111,13 @@
                     th:href="@{/movies/{id}/add-to-favourite (id=${movie.id})}"
                   >
                     <span
-                      class="material-icons rounded-circle p-3"
-                      style="background-color: white; color: white"
+                      class="material-icons rounded-circle p-2"
+                      style="border: solid 2px #b31312; color: #b31312"
                       >favorite</span
                     >
                   </a>
                 </span>
+                <span style="margin-left: 10px"></span>
                 <!-- Wishlist before save -->
                 <span
                   th:unless="${movie.isUserAvailableInMovieWatchlist(#authentication.getPrincipal().id)}"
@@ -126,8 +127,8 @@
                     class="ml-2"
                   >
                     <span
-                      class="material-icons rounded-circle p-3"
-                      style="background-color: white; color: white"
+                      class="material-icons rounded-circle p-2"
+                      style="border: solid 2px #30a2ff; color: #30a2ff"
                       >bookmark_border</span
                     >
                   </a>
@@ -141,7 +142,7 @@
                     class="ml-2"
                   >
                     <span
-                      class="material-icons rounded-circle p-3"
+                      class="material-icons rounded-circle p-2"
                       style="background-color: #30a2ff; color: white"
                       >bookmark_border</span
                     >
@@ -194,6 +195,7 @@
     <section
       th:if="${movie.trailerLink != null}"
       style="display: flex; align-items: center; justify-content: center"
+      class="my-4"
     >
       <iframe
         width="560"

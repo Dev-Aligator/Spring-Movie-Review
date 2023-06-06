@@ -1,4 +1,8 @@
+.review-writer-box {
+  color: white;
+}
 .review-heading {
+  color: white;
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 20px;
@@ -133,4 +137,10 @@
 
 .highlight {
   background-color: orange;
+}
+
+.form-control,
+.form-control::after {
+  background-color: #2b2b33 !important;
+  border: none;
 }
