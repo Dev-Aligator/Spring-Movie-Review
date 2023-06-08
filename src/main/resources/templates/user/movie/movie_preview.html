@@ -36,9 +36,7 @@
   </head>
   <body>
     <nav th:replace="layouts :: main_navbar"></nav>
-    <section
-      class="mx-auto p-2 rounded-lg container text-white-50 movie-container"
-    >
+    <section class="mx-auto rounded-lg container text-white-50 movie-container">
       <div class="d-flex align-items-stretch">
         <div class="m-2 w-100 flex-column">
           <div class="d-flex align-items-stretch">
@@ -174,7 +172,7 @@
                   >
                     <img
                       class="rounded-circle mx-auto"
-                      style="width: 500px; height: 100px"
+                      style="width: 50px; height: 50px"
                       th:src="@{${actor.getImageUrl()}}"
                       alt="Actor pic"
                     />

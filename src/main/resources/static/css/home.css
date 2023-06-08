@@ -23,10 +23,13 @@
 }
 .movie-card {
   background-color: #101112;
+  flex: 0 0 auto;
   width: 100%;
+  margin-right: 10px;
   transition: transform 0.3s ease;
   overflow: hidden;
 }
+
 
 .card-img-top {
   width: 100%;
@@ -84,8 +87,4 @@
   width: 100%;
   height: 100%;
   transition: transform 0.3s ease;
-}
-
-.card-img-top:hover {
-  transform: scale(1.2);
 }

@@ -3,6 +3,70 @@
   <head>
     <link rel="stylesheet" th:href="@{/css/home.css}" />
     <th:block th:replace="layouts :: head"></th:block>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .carousel-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .carousel-control:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .carousel-control-prev {
+        left: -20px;
+      }
+
+      .carousel-control-next {
+        right: -20px;
+      }
+
+      .scrolling-row {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        scroll-padding: 0 30px; /* Added padding for horizontal scroll */
+      }
+
+      .scrolling-row::-webkit-scrollbar {
+        display: none;
+      }
+
+      .movie-card-container {
+        flex: 0 0 auto;
+        width: max-content;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+      }
+
+      .movie-card-container:hover {
+        transform: scale(1.05);
+      }
+
+      @media (min-width: 576px) {
+        .scrolling-row {
+          flex-wrap: nowrap;
+        }
+      }
+    </style>
   </head>
 
   <body style="background-color: #101112">
@@ -31,85 +95,88 @@
           font-weight: bold;
         "
       ></div>
-      <!-- <i class="material-icons">rate_review</i> -->
-
       <div class="container">
         <p class="top-review-title">Top Reviewed Movies</p>
-        <div class="row">
-          <div class="col scrolling-col" th:each="movie : ${movies}">
-            <a
-              class="text-decoration-none"
-              th:href="@{/movies/{id}(id=${movie.getId()})}"
-            >
-              <div class="card movie-card">
-                <div class="image-container">
-                  <img
-                    class="card-img-top"
-                    th:src="@{${movie.poster}}"
-                    alt="Movie Poster"
-                  />
-                </div>
-                <div class="card-content">
-                  <p class="card-title" th:text="${movie.name}"></p>
-                  <p class="card-text" th:text="${movie.releaseDate}"></p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <!-- <div
-          class="row"
-          style="padding: 0; margin: 0; width: 18rem; color: white"
+        <div
+          id="carouselExampleIndicators"
+          class="carousel slide"
+          data-bs-ride="carousel"
         >
-          <div class="col favorite-buttons">
-            <span
-              th:if="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}"
-            >
-              <a
-                th:href="@{/movies/{id}/remove-from-favourite (id=${movie.id})}"
-              >
-                <span class="material-icons">favorite</span>
-              </a>
-            </span>
-            <span
-              th:unless="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}"
-            >
-              <a
-                th:href="@{/movies/{id}/add-to-favourite (id=${movie.id})}"
-              >
-                <span class="material-icons">favorite_border</span>
-              </a>
-            </span>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row scrolling-row">
+                <div
+                  class="col scrolling-col movie-card-container"
+                  style="width: 300px"
+                  th:each="movie : ${movies}"
+                >
+                  <a
+                    class="text-decoration-none"
+                    th:href="@{/movies/{id}(id=${movie.getId()})}"
+                  >
+                    <div class="card movie-card">
+                      <div class="image-container">
+                        <img
+                          class="card-img-top"
+                          th:src="@{${movie.poster}}"
+                          alt="Movie Poster"
+                        />
+                      </div>
+                      <div class="card-content">
+                        <p class="card-title" th:text="${movie.name}"></p>
+                        <p class="card-text" th:text="${movie.releaseDate}"></p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <a
+                  class="carousel-control carousel-control-prev"
+                  href="#carouselExampleIndicators"
+                  role="button"
+                  data-bs-slide="prev"
+                >
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+                <a
+                  class="carousel-control carousel-control-next"
+                  href="#carouselExampleIndicators"
+                  role="button"
+                  data-bs-slide="next"
+                >
+                  <i class="fas fa-chevron-right"></i>
+                </a>
+                <!-- Add more movie cards here -->
+              </div>
+            </div>
+            <!-- Add more carousel items as needed -->
           </div>
-
-          <div class="col" style="text-align: right">
-            <span
-              th:if="${movie.isUserAvailableInMovieWatchlist(#authentication.getPrincipal().id)}"
-            >
-              <a
-                th:href="@{/movies/{id}/remove-from-watchlist (id=${movie.id})}"
-                style="color: orange"
-              >
-                <span class="material-icons">turned_in</span>
-              </a>
-            </span>
-            <span
-              th:unless="${movie.isUserAvailableInMovieWatchlist(#authentication.getPrincipal().id)}"
-            >
-              <a
-                th:href="@{/movies/{id}/add-to-watchlist (id=${movie.id})}"
-                style="color: orange"
-              >
-                <span class="material-icons">bookmark_border</span>
-              </a>
-            </span>
-          </div>
-        </div> -->
+          <!-- Add carousel controls here -->
+        </div>
         <p class="top-review-title">Top Reviewed TV-Shows</p>
-
-        <!-- <p class="top-review-title">Top Actor</p> -->
       </div>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const carousel = document.querySelector(".scrolling-row");
+        const prevButton = document.querySelector(".carousel-control-prev");
+        const nextButton = document.querySelector(".carousel-control-next");
+
+        const scrollBy = 300;
+
+        prevButton.addEventListener("click", function () {
+          carousel.scrollBy({
+            left: -scrollBy,
+            behavior: "smooth",
+          });
+        });
+
+        nextButton.addEventListener("click", function () {
+          carousel.scrollBy({
+            left: scrollBy,
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
   </body>
 </html>
