@@ -1,112 +1,221 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <th:block th:replace="layouts :: head"></th:block>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
 
-  <head th:replace="layouts :: head"> </head>
-  <body style="background-color: rgb(27, 27, 27)">
+    <style>
+      .carousel-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .carousel-control:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .carousel-control-prev {
+        left: -20px;
+      }
+
+      .carousel-control-next {
+        right: -20px;
+      }
+
+      .scrolling-row {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        scroll-padding: 0 30px;
+      }
+
+      .scrolling-row::-webkit-scrollbar {
+        display: none;
+      }
+
+      .movie-card-container {
+        flex: 0 0 auto;
+        width: max-content;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+      }
+
+      .movie-card-container:hover {
+        transform: scale(1.05);
+      }
+
+      @media (min-width: 576px) {
+        .scrolling-row {
+          flex-wrap: nowrap;
+        }
+        .swiper-container {
+          width: 100%;
+          height: 500px;
+          overflow: hidden;
+        }
+        .swiper-slide {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .swiper-slide img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+        .swiper-wrapper {
+          background-color: black;
+          opacity: 30%;
+        }
+      }
+    </style>
+  </head>
+
+  <body style="background-color: #101112">
     <nav th:replace="layouts :: main_navbar"></nav>
-    <div class="container">
-      <br />
-      <h1 align="center" style="color: white; font-weight: bold">
-        Download YTS YIFY movies: HD smallest size
-      </h1>
-    <p
-            style="
-          color: rgb(236, 240, 245);
-          padding-left: 10%;
-          padding-right: 10%;
-          padding-top: 2%;
-          padding-bottom: 2%;
-        "
-    >
-        Welcome to the official YTS.RS website. Here you will be able to browse
-        and download YIFY movies in excellent 720p, 1080p, 2160p 4K and 3D
-        quality, all at the smallest file size. Only here: YTS Movies Torrents.
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" th:each="movie : ${movies}">
+          <img
+            class="swiper-slide-img"
+            th:src="@{${movie.poster}}"
+            alt="Movie Poster"
+          />
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+
+    <h1 class="home-title">Spring Movie Review</h1>
+    <p class="home-description">
+      Welcome to the ultimate destination for movie enthusiasts and cinephiles
+      alike—our movie review website! Immerse yourself in a world of cinema as
+      we bring you comprehensive and insightful reviews of the latest releases,
+      timeless classics, hidden gems, and everything in between.
     </p>
-    <div
-            style="
+    <div class="container">
+      <div
+        style="
           display: flex;
           flex-direction: row;
           justify-content: center;
           color: white;
           font-weight: bold;
         "
-    >
-        <i class="material-icons">rate_review</i>
-        <span style="width: 10px"></span>
-        <p>Top Reviewed Movies</p>
-    </div>
-
-    <hr style="background-color: rgb(154, 156, 156)"/>
-
-    <div class="container">
-        <div class="row">
-            <div class="col" th:each="movie : ${movies}">
-                <a class="text-decoration-none"
-                   style="
-                padding: 5px;
-                margin: 5px;
-                border: none;
-                background-color: rgb(27, 27, 27);
-              "
-                   th:href="@{/movies/{id}(id=${movie.getId()})}"
+      ></div>
+      <div class="container">
+        <p class="top-review-title">Top Reviewed Movies</p>
+        <div class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row scrolling-row">
+                <div
+                  class="col scrolling-col movie-card-container"
+                  style="width: 300px"
+                  th:each="movie : ${movies}"
                 >
-                    <div
-                            class="card"
-                            style="width: 18rem;border: 3px solid white;border-radius: 3px;"
-                    >
+                  <a
+                    class="text-decoration-none"
+                    th:href="@{/movies/{id}(id=${movie.getId()})}"
+                  >
+                    <div class="card movie-card">
+                      <div class="image-container">
                         <img
-                                height="300px"
-                                th:src="@{${movie.poster}}"
-                                class="card-img-top"
-                                alt="..."
+                          class="card-img-top"
+                          th:src="@{${movie.poster}}"
+                          alt="Movie Poster"
                         />
+                      </div>
+                      <div class="card-content">
+                        <p class="card-title" th:text="${movie.name}"></p>
+                        <p class="card-text" th:text="${movie.releaseDate}"></p>
+                      </div>
                     </div>
-                    <div
-                            style="
-                  padding-left: 5px;
-                  padding-top: 5px;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: flex-start;
-                "
-                    >
-                        <p
-                                style="color: white; font-weight: bold"
-                                class="card-title"
-                                th:text="${movie.name}"
-                        ></p>
-                        <p
-                                style="color: grey"
-                                class="card-text"
-                                th:text="${movie.releaseDate}"
-                        ></p>
-                    </div>
-                </a>
-                <div class="row" style="padding: 0;margin: 0;width:18rem; color:white">
-                    <div class="col">
-                        <span th:if="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}">
-                        <a th:href="@{/movies/{id}/remove-from-favourite (id=${movie.id})}" style="color: darkred"><span
-                                class="material-icons">favorite</span></a>
-                      </span>
-                        <span th:unless="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}">
-                        <a th:href="@{/movies/{id}/add-to-favourite (id=${movie.id})}" style="color: darkred"><span class="material-icons">favorite_border</span></a>
-                      </span>
-                    </div>
-                    <div class="col" style="text-align: right">
-                      <span th:if="${movie.isUserAvailableInMovieWatchlist(#authentication.getPrincipal().id)}">
-                        <a th:href="@{/movies/{id}/remove-from-watchlist (id=${movie.id})}" style="color: orange"><span
-                                class="material-icons">turned_in</span></a>
-                      </span>
-                        <span th:unless="${movie.isUserAvailableInMovieWatchlist(#authentication.getPrincipal().id)}">
-                        <a th:href="@{/movies/{id}/add-to-watchlist (id=${movie.id})}" style="color: orange"><span class="material-icons">bookmark_border</span></a>
-                      </span>
-                    </div>
+                  </a>
                 </div>
+                <a
+                  class="carousel-control carousel-control-prev"
+                  role="button"
+                  data-bs-slide="prev"
+                >
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+                <a
+                  class="carousel-control carousel-control-next"
+                  role="button"
+                  data-bs-slide="next"
+                >
+                  <i class="fas fa-chevron-right"></i>
+                </a>
+              </div>
             </div>
+          </div>
         </div>
+        <p class="top-review-title">Top Reviewed TV-Shows</p>
+      </div>
     </div>
-</div>
-<br><br>
-</div>
-</body>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <script>
+      // click left + right
+      document.addEventListener("DOMContentLoaded", function () {
+        const carousel = document.querySelector(".scrolling-row");
+        const prevButton = document.querySelector(".carousel-control-prev");
+        const nextButton = document.querySelector(".carousel-control-next");
+
+        const scrollBy = 300;
+
+        prevButton.addEventListener("click", function () {
+          carousel.scrollBy({
+            left: -scrollBy,
+            behavior: "smooth",
+          });
+        });
+
+        nextButton.addEventListener("click", function () {
+          carousel.scrollBy({
+            left: scrollBy,
+            behavior: "smooth",
+          });
+        });
+      });
+      // swipe thumbnail
+      document.addEventListener("DOMContentLoaded", function () {
+        var swiper = new Swiper(".swiper-container", {
+          direction: "vertical",
+          loop: true,
+          autoplay: {
+            delay: 3000,
+          },
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+        });
+      });
+    </script>
+  </body>
 </html>
