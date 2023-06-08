@@ -1,3 +1,8 @@
+.container {
+  background-color: #131217;
+  border-radius: 10px;
+  margin: 10px 0px;
+}
 .home-title {
   position: absolute;
   top: 100px;
@@ -29,7 +34,6 @@
   transition: transform 0.3s ease;
   overflow: hidden;
 }
-
 
 .card-img-top {
   width: 100%;

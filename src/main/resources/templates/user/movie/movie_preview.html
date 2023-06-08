@@ -76,17 +76,6 @@
                 ></span>
               </h6>
               <div class="d-flex align-items-center mt-3">
-                <!-- Watch Trailer button -->
-                <!-- <span>
-                  <a href="#" class="ml-2">
-                    <button class="btn btn-danger btn-icon watch-trailer-btn">
-                      <span class="play-icon" style="margin-right: 5px"
-                        ><i class="fas fa-play"></i
-                      ></span>
-                      <span style="margin-left: 5px">Play Trailer</span>
-                    </button>
-                  </a>
-                </span> -->
                 <!-- Favorite before -->
                 <span
                   th:if="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}"
