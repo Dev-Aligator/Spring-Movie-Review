@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+	<div th:insert="navbar :: navbar_head"></div>
+	<link th:href="@{/css/login-page-styles.css}" rel="stylesheet"/>
+	<div th:insert="navbar :: navbar_content">...</div>
+	
+	<div class="form-container">
+		<div class="login-card">
+			<div class="column">
+				<h1>Đăng nhập</h1>
+				<form th:action="@{/login}" method='POST'>
+					<div class="form-item">
+						<label for="email">Tài khoản</label>
+						<input type="text" id="email" name="username" class="form-element" required>
+					</div>
+					<div class="form-item">
+						<label for="password">Mật khẩu</label>
+						<input type="password" id="password" name="password" class="form-element" required>
+					</div>
+					<div class="messages">
+					<p th:if="${loginError}" class="error"> Login Failed  </p>
+					</div>
+					<div class="flex">
+						<button type="submit" class="btn btn-primary">Đăng nhập</button>
+						<span>Quên mật khẩu? <a href= "#">Đặt lại mật khẩu</a></span>
+					</div>
+					<div class="separator">Or</div>
+		
+					<div class="sign-in-with-google">
+						<a class="google-button" href="#">
+							<img width=30 src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="">
+						  Đăng nhập với Google
+						</a>
+					</div>
+		
+				</form>
+			</div>
+			<div class="column" style="display:none;">
+				<p>If you don't have an account, would you like to register right now</p>
+				<a href="#">Sign Up</a>
+			</div>
+		</div>
+		</div>
+</body>
+
+</html>
+
+
