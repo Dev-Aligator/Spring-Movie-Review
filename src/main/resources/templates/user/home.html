@@ -170,7 +170,74 @@
             </div>
           </div>
         </div>
-        <p class="top-review-title">Top Reviewed TV-Shows</p>
+        <p class="top-review-title">Movies for you</p>
+
+        <div class="container">
+          <div class="row">
+              <div class="col" th:each="movie : ${movies}">
+                  <a class="text-decoration-none"
+                     style="
+                  padding: 5px;
+                  margin: 5px;
+                  border: none;
+                  background-color: rgb(27, 27, 27);
+                "
+                     th:href="@{/movies/{id}(id=${movie.getId()})}"
+                  >
+                      <div
+                              class="card"
+                              style="width: 18rem;border: 3px solid white;border-radius: 3px;"
+                      >
+                          <img
+                                  height="300px"
+                                  th:src="@{${movie.poster}}"
+                                  class="card-img-top"
+                                  alt="..."
+                          />
+                      </div>
+                      <div
+                              style="
+                    padding-left: 5px;
+                    padding-top: 5px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                  "
+                      >
+                          <p
+                                  style="color: white; font-weight: bold"
+                                  class="card-title"
+                                  th:text="${movie.name}"
+                          ></p>
+                          <p
+                                  style="color: grey"
+                                  class="card-text"
+                                  th:text="${movie.releaseDate}"
+                          ></p>
+                      </div>
+                  </a>
+                  <div class="row" style="padding: 0;margin: 0;width:18rem; color:white">
+                      <div class="col">
+                          <span th:if="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}">
+                          <a th:href="@{/movies/{id}/remove-from-favourite (id=${movie.id})}" style="color: darkred"><span
+                                  class="material-icons">favorite</span></a>
+                        </span>
+                          <span th:unless="${movie.isUserAvailableInFavouriteMovie(#authentication.getPrincipal().id)}">
+                          <a th:href="@{/movies/{id}/add-to-favourite (id=${movie.id})}" style="color: darkred"><span class="material-icons">favorite_border</span></a>
+                        </span>
+                      </div>
+                      <div class="col" style="text-align: right">
+                        <span th:if="${movie.isUserAvailableInMovieWatchlist(#authentication.getPrincipal().id)}">
+                          <a th:href="@{/movies/{id}/remove-from-watchlist (id=${movie.id})}" style="color: orange"><span
+                                  class="material-icons">turned_in</span></a>
+                        </span>
+                          <span th:unless="${movie.isUserAvailableInMovieWatchlist(#authentication.getPrincipal().id)}">
+                          <a th:href="@{/movies/{id}/add-to-watchlist (id=${movie.id})}" style="color: orange"><span class="material-icons">bookmark_border</span></a>
+                        </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
     </div>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

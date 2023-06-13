@@ -1,6 +1,8 @@
 package com.dsi.spring.service.impl;
 
 import java.util.List;
+import java.util.ArrayList;
+
 
 import com.dsi.spring.dao.MovieDao;
 import com.dsi.spring.model.Movie;
@@ -33,5 +35,18 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(Long id) throws Exception {
         return movieDao.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Movie id: " + id));
+    }
+
+    @Override
+    public List<Movie> searchMovies(String keyword){
+        List<Movie> movies = movieDao.findAll();
+        List<Movie> matchingMovies = new ArrayList<>();
+
+    for (Movie movie : movies) {
+        if (movie.getName().toLowerCase().contains(keyword.toLowerCase())) {
+            matchingMovies.add(movie);
+        }
+    }
+    return matchingMovies;
     }
 }

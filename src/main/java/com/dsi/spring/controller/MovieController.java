@@ -50,6 +50,13 @@ public class MovieController {
         return "user/home";
     }
 
+    @RequestMapping("/movies/search")
+    public String getHomeMovies(@RequestParam("keyword") String keyword, Model model) {
+        List<Movie> movies = movieService.searchMovies(keyword);
+        model.addAttribute("movies", movies);
+        return "user/home";
+    }
+
     @RequestMapping("/movies/{id}")
     public String getMoviePreview(@PathVariable("id") long id, Model model) {
         try {
@@ -66,6 +73,13 @@ public class MovieController {
     @RequestMapping("/admin/movies")
     public String getMovies(Model model) {
         List<Movie> movies = movieService.getMovies();
+        model.addAttribute("movies", movies);
+        return "admin/movie/movies";
+    }
+
+    @RequestMapping("/admin/movies/search")
+    public String getMovies(@RequestParam("keyword") String keyword, Model model) {
+        List<Movie> movies = movieService.searchMovies(keyword);
         model.addAttribute("movies", movies);
         return "admin/movie/movies";
     }

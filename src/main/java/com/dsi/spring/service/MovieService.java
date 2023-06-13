@@ -15,4 +15,6 @@ public interface MovieService {
     void deleteMovie(Movie movie);
 
     Movie getMovieById(Long id) throws Exception;
+
+    List<Movie> searchMovies(String keyword);
 }
