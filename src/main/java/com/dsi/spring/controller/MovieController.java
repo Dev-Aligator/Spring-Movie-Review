@@ -44,8 +44,11 @@ public class MovieController {
     private AuthService authService;
 
     @RequestMapping("/movies")
-    public String getHomeMovies(Model model) {
-        List<Movie> movies = movieService.getMovies();
+    public String getHomeMovies(Model model,@AuthenticationPrincipal MyUserDetails principal) {
+        // List<Movie> movies = movieService.getMovies();
+        User user = authService.profile(principal);
+        List<Movie> movies = movieService.matchMovies(user);
+        // Set<Movie> movies = user.getFavouriteMovies();
         model.addAttribute("movies", movies);
         return "user/home";
     }

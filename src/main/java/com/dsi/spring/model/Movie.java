@@ -56,6 +56,9 @@ public class Movie {
     @Column(name="trailer_link", nullable = true, columnDefinition = "TEXT")
     private String trailerLink;
 
+    @Column(name = "score", nullable = true)
+    private Double score;
+
     public Movie() {
     }
 
@@ -150,6 +153,13 @@ public class Movie {
         this.trailerLink = trailerLink;
     }
 
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
 
     public Set<User> getWatchlistUsers() {
         return watchlistUsers;
