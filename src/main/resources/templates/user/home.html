@@ -237,15 +237,30 @@
                       </div>
                   </div>
               </div>
-              <div class="pagination">
-                <ul>
+              <nav aria-label="pagination" class="pagination">
+                <ul id="paginationList">
                   <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:href="@{/movies(page=${pageNumber})}" th:class="${pageNumber == currentPage} ? 'active'">
-                      <span th:text="${pageNumber + 1}"></span>
+                    <a th:if="${pageNumber == 0 || pageNumber == totalPages - 1 || pageNumber == currentPage || (pageNumber >= currentPage - 10 && pageNumber <= currentPage + 8)}"
+                       th:href="@{/movies(page=${pageNumber})}"
+                       th:class="'pagination-btn ' + (${pageNumber == currentPage} ? 'active' : '')">
+                      <span th:if="${pageNumber == currentPage || pageNumber == 0 || pageNumber == totalPages - 1 || (pageNumber >= currentPage - 9 && pageNumber <= currentPage + 7)}" th:text="${pageNumber + 1}"></span>
+                      <span th:unless="${pageNumber == currentPage || pageNumber == 0 || pageNumber == totalPages - 1 || (pageNumber >= currentPage - 9 && pageNumber <= currentPage + 7)}">...</span>
                     </a>
                   </li>
                 </ul>
-              </div>
+              </nav>
+              <script>
+                // Get the pagination list
+                const paginationList = document.getElementById('paginationList');
+                // Remove empty li elements
+                const emptyLiElements = paginationList.querySelectorAll('li');
+                emptyLiElements.forEach(function(liElement) {
+                    if (liElement.innerHTML.trim() === '') {
+                // Remove the empty <li> element from the DOM
+                        liElement.remove();
+                      }
+                  });
+              </script>
           </div>
       </div>
     </div>
