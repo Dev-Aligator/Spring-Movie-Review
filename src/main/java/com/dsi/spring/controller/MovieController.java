@@ -51,6 +51,10 @@ public class MovieController {
     public String getHomeMovies(Model model,@AuthenticationPrincipal MyUserDetails principal, @RequestParam(defaultValue = "0") int page) {
         User user = authService.profile(principal);
         Page<Movie> movies = movieService.matchMovies(user, PageRequest.of(page,36));
+        List<Movie> latestMovie = movieService.getMovies();
+        List<Movie> topFiveMovies = latestMovie.subList(0, Math.min(latestMovie.size(), 10));
+
+        model.addAttribute("latestMovies", topFiveMovies);
         model.addAttribute("movies", movies);
         model.addAttribute("movies", movies.getContent()); // Pass the content of the Page<Movie> object
         model.addAttribute("currentPage", page); // Pass the current page number
