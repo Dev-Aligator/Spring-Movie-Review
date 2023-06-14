@@ -28,6 +28,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 @Controller
 public class MovieController {
 
@@ -44,12 +48,14 @@ public class MovieController {
     private AuthService authService;
 
     @RequestMapping("/movies")
-    public String getHomeMovies(Model model,@AuthenticationPrincipal MyUserDetails principal) {
-        // List<Movie> movies = movieService.getMovies();
+    public String getHomeMovies(Model model,@AuthenticationPrincipal MyUserDetails principal, @RequestParam(defaultValue = "0") int page) {
         User user = authService.profile(principal);
-        List<Movie> movies = movieService.matchMovies(user);
-        // Set<Movie> movies = user.getFavouriteMovies();
+        Page<Movie> movies = movieService.matchMovies(user, PageRequest.of(page,36));
         model.addAttribute("movies", movies);
+        model.addAttribute("movies", movies.getContent()); // Pass the content of the Page<Movie> object
+        model.addAttribute("currentPage", page); // Pass the current page number
+        model.addAttribute("totalPages", movies.getTotalPages()); // Pass the total number of pages
+
         return "user/home";
     }
 

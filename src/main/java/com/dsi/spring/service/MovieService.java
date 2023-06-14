@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.dsi.spring.model.Movie;
 import com.dsi.spring.model.User;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,5 @@ public interface MovieService {
 
     List<Movie> searchMovies(String keyword);
 
-    List<Movie> matchMovies(User user);
+    Page<Movie> matchMovies(User user, Pageable pageable);
 }

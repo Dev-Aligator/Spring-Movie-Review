@@ -237,6 +237,15 @@
                       </div>
                   </div>
               </div>
+              <div class="pagination">
+                <ul>
+                  <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{/movies(page=${pageNumber})}" th:class="${pageNumber == currentPage} ? 'active'">
+                      <span th:text="${pageNumber + 1}"></span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
           </div>
       </div>
     </div>

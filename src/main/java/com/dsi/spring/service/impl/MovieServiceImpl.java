@@ -18,6 +18,11 @@ import org.hibernate.criterion.LikeExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
+
 @Component
 public class MovieServiceImpl implements MovieService {
 
@@ -58,29 +63,35 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> matchMovies(User user){
+    public Page<Movie> matchMovies(User user, Pageable pageable) {
         List<Movie> movies = movieDao.findAll();
         List<Movie> matchingMovies = new ArrayList<>();
-
+    
         Set<Movie> likeMovies = user.getFavouriteMovies();
-        if (likeMovies.size() == 0){
-            return movies;
+        if (likeMovies.isEmpty()) {
+            return new PageImpl<>(movies, pageable, movies.size());
         }
+    
         for (Movie movie : movies) {
             double genreScore = calculateGenreScore(movie, likeMovies);
             double yearScore = calculateYearScore(movie, likeMovies);
             double nameScore = calculateNameScore(movie, likeMovies);
-            
+    
             // Combine the scores using appropriate weights or scoring mechanism
             double totalScore = 0.8 * genreScore - 0.01 * yearScore + 0.6 * nameScore;
-
+    
             movie.setScore(totalScore);
             matchingMovies.add(movie);
         }
         matchingMovies.sort(Comparator.comparingDouble(Movie::getScore).reversed());
-        return matchingMovies;
-
+    
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), matchingMovies.size());
+    
+        List<Movie> paginatedMovies = matchingMovies.subList(start, end);
+        return new PageImpl<>(paginatedMovies, pageable, matchingMovies.size());
     }
+    
 
     private double calculateGenreScore(Movie movie, Set<Movie> likeMovies) {
         double genreScore = 0.0;
