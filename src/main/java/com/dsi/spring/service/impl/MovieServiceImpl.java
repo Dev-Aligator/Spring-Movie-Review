@@ -2,12 +2,13 @@ package com.dsi.spring.service.impl;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
 import java.lang.*;
 import java.util.HashSet;
 import java.util.Comparator;
 import java.util.ArrayList;
 import com.dsi.spring.model.User;
-
+import javax.swing.JOptionPane;
 
 import com.dsi.spring.dao.MovieDao;
 import com.dsi.spring.model.Movie;
@@ -71,7 +72,7 @@ public class MovieServiceImpl implements MovieService {
             double nameScore = calculateNameScore(movie, likeMovies);
             
             // Combine the scores using appropriate weights or scoring mechanism
-            double totalScore = 0.7 * genreScore - 0.01 * yearScore + 0.3 * nameScore;
+            double totalScore = 0.8 * genreScore - 0.01 * yearScore + 0.6 * nameScore;
 
             movie.setScore(totalScore);
             matchingMovies.add(movie);
@@ -84,14 +85,20 @@ public class MovieServiceImpl implements MovieService {
     private double calculateGenreScore(Movie movie, Set<Movie> likeMovies) {
         double genreScore = 0.0;
         int genre_count = 0;
-        for (Movie lmovie : likeMovies){
-            if(lmovie.getGenre() == movie.getGenre()){
-                genre_count+=1;
-            }
+        String[] movieGenres = movie.getGenre().split(",\\s*");
+    
+        for (Movie lmovie : likeMovies) {
+            String[] likeMovieGenres = lmovie.getGenre().split(",\\s*");
+        
+            for (String genre : movieGenres) {
+                if (Arrays.asList(likeMovieGenres).contains(genre)) {
+                genre_count++;
+                 }
+            }   
         }
         if (genre_count > 0) {
             // Increase the score based on the number of occurrences
-            genreScore = 0.1 * genre_count;
+            genreScore = 0.05 * genre_count;
         }
 
         return genreScore;
@@ -101,7 +108,12 @@ public class MovieServiceImpl implements MovieService {
         double yearScore = 0.0;
         double averageYear = 0;
         for (Movie lmMovie : likeMovies){
-            averageYear += lmMovie.getReleaseDate().getYear();
+            try {
+                averageYear += lmMovie.getReleaseDate().getYear();
+            }
+            catch(Exception e){
+                averageYear+= movie.getReleaseDate().getYear();
+            }
         }
         averageYear/= likeMovies.size();
         yearScore = Math.abs(averageYear - movie.getReleaseDate().getYear());
