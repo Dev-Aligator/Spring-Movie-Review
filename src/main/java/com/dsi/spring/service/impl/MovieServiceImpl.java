@@ -17,7 +17,8 @@ import com.dsi.spring.service.MovieService;
 import org.hibernate.criterion.LikeExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import java.util.Date;
+import java.util.Calendar;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -92,6 +93,60 @@ public class MovieServiceImpl implements MovieService {
         return new PageImpl<>(paginatedMovies, pageable, matchingMovies.size());
     }
     
+    @Override
+    public List<Movie> filterMovies(String genre, String year, Integer rating){
+        List<Movie> movies = movieDao.findAll();
+        List<Movie> matchingMovies = new ArrayList<>();
+
+        for (Movie movie: movies){
+            int match = 0;
+            // Check genre match
+            if (genre.equals("all")){
+                match++;
+            }
+            else{
+                String[] movieGenres = movie.getGenre().toLowerCase().split(", ");
+                for (String movieGenre : movieGenres) {
+                    if (movieGenre.contains(genre)) {
+                        match++;
+                        break;
+                    }
+                }
+            }
+
+            if (year.equals("all")){
+                match++;
+            }
+            else if (isMovieWithinYearRange(movie, year)){
+                match++;
+            }
+            if(movie.getRating() > rating){
+                match++;
+            }
+
+            if(match == 3){
+                matchingMovies.add(movie);
+            }
+        }
+
+        return matchingMovies;
+
+    }
+
+    private boolean isMovieWithinYearRange(Movie movie, String yearFilter) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(movie.getReleaseDate());
+        int movieYear = calendar.get(Calendar.YEAR);
+        if (yearFilter.contains("-")) {
+            String[] years = yearFilter.split("-");
+            int startYear = Integer.parseInt(years[0]);
+            int endYear = Integer.parseInt(years[1]);
+            return movieYear >= startYear && movieYear <= endYear;
+        } else {
+            int singleYear = Integer.parseInt(yearFilter);
+            return movieYear == singleYear;
+        }
+    }
 
     private double calculateGenreScore(Movie movie, Set<Movie> likeMovies) {
         double genreScore = 0.0;
@@ -179,5 +234,6 @@ public class MovieServiceImpl implements MovieService {
         
         return jaccardSimilarity;
     }
+
 
 }

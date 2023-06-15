@@ -63,6 +63,25 @@ public class MovieController {
         return "user/home";
     }
 
+    @GetMapping("/movies/filter")
+    public String filterMovies(@RequestParam(value = "genre", required = false) String genre,
+                           @RequestParam(value = "year", required = false) String year,
+                           @RequestParam(value = "rating", required = false) Integer rating,
+                           Model model) {
+        // Perform the filtering based on the selected genre, year, and rating
+        List<Movie> filteredMovies = movieService.filterMovies(genre, year, rating);
+        List<Movie> latestMovie = movieService.getMovies();
+        List<Movie> topFiveMovies = latestMovie.subList(0, Math.min(latestMovie.size(), 10));
+
+        // Pass the filtered movies to the view
+        model.addAttribute("latestMovies", topFiveMovies);
+
+        model.addAttribute("movies", filteredMovies);
+
+        // Return the view name or template for displaying the filtered movies
+        return "user/home";
+}
+
     @RequestMapping("/movies/search")
     public String getHomeMovies(@RequestParam("keyword") String keyword, Model model) {
         List<Movie> movies = movieService.searchMovies(keyword);

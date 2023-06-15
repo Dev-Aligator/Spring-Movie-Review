@@ -23,4 +23,6 @@ public interface MovieService {
     List<Movie> searchMovies(String keyword);
 
     Page<Movie> matchMovies(User user, Pageable pageable);
+
+    List<Movie> filterMovies(String genre, String year, Integer rating);
 }
